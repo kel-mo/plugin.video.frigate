@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.frigate" name="Frigate" version="0.1.0" provider-name="kel-mo">
+  <requires>
+    <import addon="xbmc.python" version="3.0.1"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.service" library="service.py"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Watch your Frigate cameras in Kodi</summary>
+    <description lang="en_GB">Watch the cameras of a self-hosted Frigate NVR live, and play back the clips of its recent review items. View only: nothing is changed on the server.</description>
+    <disclaimer lang="en_GB">Requires a Frigate server (0.14 or newer) that you own or have an account on. Not affiliated with the Frigate project.</disclaimer>
+    <platform>all</platform>
+    <license>GPL-2.0-or-later</license>
+    <source>https://github.com/kel-mo/plugin.video.frigate</source>
+    <website>https://frigate.video</website>
+    <news>v0.1.0: initial release - live view and review clips</news>
+  </extension>
+</addon>

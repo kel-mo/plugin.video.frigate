@@ -1,0 +1,123 @@
+# Kodi Media Center language file
+# Addon Name: Frigate
+# Addon id: plugin.video.frigate
+# Addon Provider: kel-mo
+msgid ""
+msgstr ""
+"Project-Id-Version: plugin.video.frigate\n"
+"Report-Msgid-Bugs-To: https://github.com/kel-mo/plugin.video.frigate/issues\n"
+"POT-Creation-Date: 2026-09-30 00:00+0000\n"
+"PO-Revision-Date: 2026-09-30 00:00+0000\n"
+"Last-Translator: Kodi Translation Team\n"
+"Language-Team: English (United Kingdom)\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Menu items 30000-30099
+
+msgctxt "#30000"
+msgid "Cameras"
+msgstr ""
+
+msgctxt "#30001"
+msgid "Review"
+msgstr ""
+
+msgctxt "#30003"
+msgid "Settings"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Next page"
+msgstr ""
+
+# Settings 30100-30599
+
+msgctxt "#30100"
+msgid "Server"
+msgstr ""
+
+msgctxt "#30101"
+msgid "Frigate address"
+msgstr ""
+
+msgctxt "#30102"
+msgid "For example https://frigate.example.com, or http://nvr:5000 for Frigate's internal port without sign-in."
+msgstr ""
+
+msgctxt "#30103"
+msgid "User name"
+msgstr ""
+
+msgctxt "#30104"
+msgid "Leave empty when Frigate does not ask for a sign-in."
+msgstr ""
+
+msgctxt "#30105"
+msgid "Password"
+msgstr ""
+
+msgctxt "#30200"
+msgid "Live view"
+msgstr ""
+
+msgctxt "#30201"
+msgid "Stream"
+msgstr ""
+
+msgctxt "#30202"
+msgid "Frigate's go2rtc restreams each camera. RTSP (port 8554) starts quickly; HLS (port 1984) plays over HTTP but lags a few seconds. Neither asks for the sign-in."
+msgstr ""
+
+msgctxt "#30203"
+msgid "RTSP"
+msgstr ""
+
+msgctxt "#30204"
+msgid "HLS"
+msgstr ""
+
+msgctxt "#30205"
+msgid "Stream host"
+msgstr ""
+
+msgctxt "#30206"
+msgid "Where go2rtc listens. Leave empty to use the host of the Frigate address."
+msgstr ""
+
+msgctxt "#30300"
+msgid "Review"
+msgstr ""
+
+msgctxt "#30301"
+msgid "Items per page"
+msgstr ""
+
+msgctxt "#30500"
+msgid "Advanced"
+msgstr ""
+
+msgctxt "#30501"
+msgid "Debug logging"
+msgstr ""
+
+# Messages 30600-30699
+
+msgctxt "#30601"
+msgid "Set the Frigate address first"
+msgstr ""
+
+msgctxt "#30614"
+msgid "Could not reach Frigate"
+msgstr ""
+
+msgctxt "#30615"
+msgid "Frigate did not accept the user name or password"
+msgstr ""
+
+msgctxt "#30626"
+msgid "The Frigate service is not running. Restart Kodi and try again."
+msgstr ""

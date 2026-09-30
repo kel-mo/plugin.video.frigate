@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<settings version="1">
+  <section id="plugin.video.frigate">
+    <category id="server" label="30100" help="">
+      <group id="1">
+        <setting id="server_url" type="string" label="30101" help="30102">
+          <level>0</level>
+          <default></default>
+          <constraints>
+            <allowempty>true</allowempty>
+          </constraints>
+          <control type="edit" format="string">
+            <heading>30101</heading>
+          </control>
+        </setting>
+        <setting id="username" type="string" label="30103" help="30104">
+          <level>0</level>
+          <default></default>
+          <constraints>
+            <allowempty>true</allowempty>
+          </constraints>
+          <control type="edit" format="string">
+            <heading>30103</heading>
+          </control>
+        </setting>
+        <setting id="password" type="string" label="30105" help="">
+          <level>0</level>
+          <default></default>
+          <constraints>
+            <allowempty>true</allowempty>
+          </constraints>
+          <control type="edit" format="string">
+            <heading>30105</heading>
+            <hidden>true</hidden>
+          </control>
+        </setting>
+      </group>
+      <group id="2">
+        <setting id="token" type="string" label="" help="">
+          <level>4</level>
+          <default></default>
+          <constraints>
+            <allowempty>true</allowempty>
+          </constraints>
+          <control type="edit" format="string">
+            <heading></heading>
+            <hidden>true</hidden>
+          </control>
+          <visible>false</visible>
+        </setting>
+      </group>
+    </category>
+    <category id="live" label="30200" help="">
+      <group id="1">
+        <setting id="live_source" type="string" label="30201" help="30202">
+          <level>0</level>
+          <default>rtsp</default>
+          <constraints>
+            <options>
+              <option label="30203">rtsp</option>
+              <option label="30204">hls</option>
+            </options>
+          </constraints>
+          <control type="list" format="string">
+            <heading>30201</heading>
+          </control>
+        </setting>
+        <setting id="live_host" type="string" label="30205" help="30206">
+          <level>1</level>
+          <default></default>
+          <constraints>
+            <allowempty>true</allowempty>
+          </constraints>
+          <control type="edit" format="string">
+            <heading>30205</heading>
+          </control>
+        </setting>
+      </group>
+    </category>
+    <category id="review" label="30300" help="">
+      <group id="1">
+        <setting id="page_size" type="integer" label="30301" help="">
+          <level>1</level>
+          <default>50</default>
+          <constraints>
+            <minimum>10</minimum>
+            <step>10</step>
+            <maximum>200</maximum>
+          </constraints>
+          <control type="slider" format="integer">
+            <popup>false</popup>
+          </control>
+        </setting>
+      </group>
+    </category>
+    <category id="advanced" label="30500" help="">
+      <group id="1">
+        <setting id="debug" type="boolean" label="30501" help="">
+          <level>2</level>
+          <default>false</default>
+          <control type="toggle"/>
+        </setting>
+      </group>
+    </category>
+  </section>
+</settings>
