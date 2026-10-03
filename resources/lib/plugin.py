@@ -69,7 +69,7 @@ def resolve(url, mime=None):
         li.setMimeType(mime)
     li.setContentLookup(False)
     xbmcplugin.setResolvedUrl(HANDLE, True, li)
-    proxy.wait_for_kodi(url)                    # Kodi deadlocks if our teardown overlaps its check of the URL
+    proxy.wait_for_kodi(url)                    # eases, not fixes, Kodi's stall on stat'ing the URL: xbmc/xbmc#29548
 
 
 def region(key):
