@@ -10,12 +10,13 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 
-from . import kodi
+from . import kodi, proxy
 from .api import ApiError, AuthError, FrigateClient, stream_name
 
 BASE = 'plugin://{}/'.format(kodi.ADDON_ID)
 HANDLE = -1
-MIME = {'hls': 'application/vnd.apple.mpegurl'}
+HLS = 'application/vnd.apple.mpegurl'
+MIME = {'hls': HLS, 'frigate': 'video/mp4'}
 
 _formats = {}
 
@@ -68,6 +69,7 @@ def resolve(url, mime=None):
         li.setMimeType(mime)
     li.setContentLookup(False)
     xbmcplugin.setResolvedUrl(HANDLE, True, li)
+    proxy.wait_for_kodi(url)                    # Kodi deadlocks if our teardown overlaps its check of the URL
 
 
 def region(key):
@@ -103,7 +105,12 @@ def root():
 def cameras(client):
     xbmcplugin.setContent(HANDLE, 'videos')
     xbmcplugin.setPluginCategory(HANDLE, kodi.L(30000))
-    for name, cam in client.cameras():
+    proxy.forget_snapshots()
+    config = client.config()
+    birdseye = config.get('birdseye') or {}
+    if birdseye.get('enabled'):
+        video_item(kodi.L(30002), url_for('birdseye', restream='1' if birdseye.get('restream') else None), kodi.ICON)
+    for name, cam in client.cameras(config):
         video_item(camera_label(name, cam), url_for('live', camera=name, stream=stream_name(name, cam)),
                    client.snapshot_url(name))
     xbmcplugin.addSortMethod(HANDLE, xbmcplugin.SORT_METHOD_NONE)
@@ -111,9 +118,15 @@ def cameras(client):
 
 
 def live(client, params):
-    source = kodi.setting('live_source') or 'rtsp'
+    source = kodi.setting('live_source') or 'frigate'
     resolve(client.live_url(params.get('stream') or params['camera'], source, kodi.setting('live_host')),
             MIME.get(source))
+
+
+def birdseye(client, params):
+    if params.get('restream'):
+        return live(client, {'stream': 'birdseye'})
+    resolve(client.birdseye_url(), 'video/mp2t')
 
 
 def review(client, params):
@@ -137,7 +150,7 @@ def review(client, params):
 
 
 def clip(client, params):
-    resolve(client.clip_url(params['camera'], float(params['start']), float(params['end'])), 'video/mp4')
+    resolve(client.clip_url(params['camera'], float(params['start']), float(params['end'])), HLS)
 
 
 # --------------------------------------------------------------------- main
@@ -175,6 +188,8 @@ def dispatch(action, params):
         cameras(FrigateClient())
     elif action == 'live':
         live(FrigateClient(), params)
+    elif action == 'birdseye':
+        birdseye(FrigateClient(), params)
     elif action == 'review':
         review(FrigateClient(), params)
     elif action == 'clip':

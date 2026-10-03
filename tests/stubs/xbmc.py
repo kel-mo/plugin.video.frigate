@@ -7,3 +7,5 @@ class Monitor:
     def abortRequested(self): return False
     def waitForAbort(self, t=0): return False
 def getRegion(k): return {'dateshort': '%d/%m/%Y', 'time': '%H:%M:%S'}.get(k, '')
+JSONRPC = []
+def executeJSONRPC(s): JSONRPC.append(s); return '{"result": {}}'

@@ -54,9 +54,10 @@
       <group id="1">
         <setting id="live_source" type="string" label="30201" help="30202">
           <level>0</level>
-          <default>rtsp</default>
+          <default>frigate</default>
           <constraints>
             <options>
+              <option label="30207">frigate</option>
               <option label="30203">rtsp</option>
               <option label="30204">hls</option>
             </options>
@@ -71,6 +72,9 @@
           <constraints>
             <allowempty>true</allowempty>
           </constraints>
+          <dependencies>
+            <dependency type="visible" setting="live_source" operator="!is">frigate</dependency>
+          </dependencies>
           <control type="edit" format="string">
             <heading>30205</heading>
           </control>
@@ -90,15 +94,6 @@
           <control type="slider" format="integer">
             <popup>false</popup>
           </control>
-        </setting>
-      </group>
-    </category>
-    <category id="advanced" label="30500" help="">
-      <group id="1">
-        <setting id="debug" type="boolean" label="30501" help="">
-          <level>2</level>
-          <default>false</default>
-          <control type="toggle"/>
         </setting>
       </group>
     </category>

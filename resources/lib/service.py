@@ -14,7 +14,8 @@ class Monitor(xbmc.Monitor):
 
     def onSettingsChanged(self):
         self.server.client = FrigateClient(kodi.fresh_setting('server_url'), kodi.fresh_setting('username'),
-                                           kodi.fresh_setting('password'), kodi.fresh_setting('token'))
+                                           kodi.fresh_setting('password'), kodi.fresh_setting('token'),
+                                           timeout=proxy.TIMEOUT)
 
 
 def run():

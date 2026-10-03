@@ -16,7 +16,7 @@
     <source>https://github.com/kel-mo/plugin.video.frigate</source>
     <website>https://frigate.video</website>
     <news>v0.1.0
-- First release: live view and review clips</news>
+- First release: live view, Birdseye and review clips</news>
     <assets>
       <icon>resources/icon.png</icon>
       <fanart>resources/fanart.jpg</fanart>

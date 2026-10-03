@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Thin helpers around the Kodi Python API."""
+import json
 import os
 
 import xbmc
@@ -46,11 +47,17 @@ def log(msg, level=xbmc.LOGINFO):
 
 
 def debug(msg):
-    if setting_bool('debug'):
-        xbmc.log('[{}] {}'.format(ADDON_ID, msg), xbmc.LOGINFO)
-    else:
-        xbmc.log('[{}] {}'.format(ADDON_ID, msg), xbmc.LOGDEBUG)
+    log(msg, xbmc.LOGDEBUG)
 
 
 def error(message, heading=None):
     xbmcgui.Dialog().notification(heading or ADDON_NAME, message, xbmcgui.NOTIFICATION_ERROR, 6000)
+
+
+def jsonrpc(method, **params):
+    payload = {'jsonrpc': '2.0', 'id': 1, 'method': method, 'params': params}
+    result = json.loads(xbmc.executeJSONRPC(json.dumps(payload)))
+    if 'error' in result:
+        log('JSON-RPC {} failed: {}'.format(method, result['error']), xbmc.LOGWARNING)
+        return None
+    return result.get('result')

@@ -25,11 +25,23 @@ Needs Frigate 0.14 or newer, and Kodi 22.
 
 ## Live view
 
-Live view plays go2rtc's restream of each camera, which Frigate runs
-alongside itself: RTSP on port 8554, or HLS on port 1984. Both must be
-reachable from Kodi, and neither asks for the sign-in. Pick one under
-*Settings → Live view*, and set *Stream host* if go2rtc is not on the same
-host as the Frigate address.
+By default live view plays the way the Frigate web UI does, over the
+Frigate address with your sign-in, so it works wherever that address
+does, behind a reverse proxy too.
+
+To go straight to go2rtc, which Frigate runs alongside itself, pick RTSP
+(port 8554) or HLS (port 1984) under *Settings → Live view*. Both ports
+must be reachable from Kodi, and neither asks for the sign-in. Set
+*Stream host* if go2rtc is not on the same host as the Frigate address.
+
+## Birdseye
+
+When Birdseye is on in Frigate, it heads the list of cameras. Kodi plays
+the same view as the Frigate web UI, over the Frigate address. With
+`birdseye: restream: true` in the Frigate config, it plays go2rtc's
+sharper H.264 restream instead, from whichever live view source is
+chosen. Frigate's Birdseye `mode` decides which cameras appear in it:
+`continuous` shows them all.
 
 ---
 

@@ -133,11 +133,13 @@ class Urls(FrigateCase):
 
     def test_live_url(self):
         client = api.FrigateClient('https://frigate.example.com', '', '', '')
-        self.assertEqual(client.live_url('tapo_c200'), 'rtsp://frigate.example.com:8554/tapo_c200')
+        self.assertEqual(client.live_url('tapo c200/x'), PROXY + '/live/tapo%20c200%2Fx.mp4')
+        self.assertEqual(client.birdseye_url(), PROXY + '/birdseye.ts')
+        self.assertEqual(client.live_url('tapo_c200', 'rtsp'), 'rtsp://frigate.example.com:8554/tapo_c200')
         self.assertEqual(client.live_url('tapo c200', 'hls'),
                          'http://frigate.example.com:1984/api/stream.m3u8?src=tapo+c200')
         self.assertEqual(client.live_url('cam', 'rtsp', ' nvr.lan '), 'rtsp://nvr.lan:8554/cam')
-        self.assertEqual(api.FrigateClient('http://[fd00::5]:5000', '', '', '').live_url('cam'),
+        self.assertEqual(api.FrigateClient('http://[fd00::5]:5000', '', '', '').live_url('cam', 'rtsp'),
                          'rtsp://[fd00::5]:8554/cam')
 
     def test_stream_name(self):
@@ -153,7 +155,7 @@ class Urls(FrigateCase):
                          PROXY + '/clips/review/thumb-{}-{}.webp'.format(item['camera'], item['id']))
         self.assertEqual(client.review_thumb_url({'thumb_path': ''}), '')
         self.assertEqual(client.clip_url('tapo_c100', 1790764342.9, 1790764354.1),
-                         PROXY + '/api/tapo_c100/start/1790764342/end/1790764355/clip.mp4')
+                         PROXY + '/vod/tapo_c100/start/1790764342/end/1790764355/index.m3u8')
 
     def test_media_needs_the_service(self):
         xbmcgui.Window.PROPS = {}

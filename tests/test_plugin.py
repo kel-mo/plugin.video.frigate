@@ -1,6 +1,8 @@
 """plugin:// listings and playback against the mock Frigate."""
+import json
 import time
 import unittest
+from unittest import mock
 from urllib.parse import parse_qsl, urlsplit
 
 from support import PROXY, FrigateCase, mock_frigate, settings, xbmcgui, xbmcplugin
@@ -11,6 +13,12 @@ def query(url):
 
 
 class Listings(FrigateCase):
+    def setUp(self):
+        super().setUp()
+        patcher = mock.patch('resources.lib.proxy.wait_for_kodi')
+        self.waited = patcher.start()
+        self.addCleanup(patcher.stop)
+
     def labels(self, items):
         return [li.label for _, li, _ in items]
 
@@ -24,20 +32,48 @@ class Listings(FrigateCase):
 
     def test_cameras(self):
         items = self.run_plugin('?action=cameras')
-        self.assertEqual(self.labels(items), ['Driveway', 'Tapo C200', 'Tapo C325wb'])
+        self.assertEqual(self.labels(items), ['Birdseye', 'Driveway', 'Tapo C200', 'Tapo C325wb'])
         self.assertEqual([query(url) for url, _, _ in items],
-                         [{'action': 'live', 'camera': 'tapo_c100', 'stream': 'tapo_c100_sub'},
+                         [{'action': 'birdseye'},
+                          {'action': 'live', 'camera': 'tapo_c100', 'stream': 'tapo_c100_sub'},
                           {'action': 'live', 'camera': 'tapo_c200', 'stream': 'tapo_c200'},
                           {'action': 'live', 'camera': 'tapo_c325wb', 'stream': 'tapo_c325wb'}])
-        _, li, is_folder = items[0]
+        _, li, is_folder = items[1]
         self.assertFalse(is_folder)
         self.assertEqual(li.props['IsPlayable'], 'true')
         self.assertEqual(li.art['thumb'], PROXY + '/api/tapo_c100/latest.jpg?h=360')
 
+    def test_cameras_forget_cached_snapshots(self):
+        textures = [{'textureid': 1, 'url': PROXY + '/api/tapo_c100/latest.jpg?h=360'},
+                    {'textureid': 2, 'url': 'https://elsewhere.example/latest.jpg'}]
+        calls = []
+
+        def rpc(s):
+            calls.append(json.loads(s))
+            return json.dumps({'result': {'textures': textures} if calls[-1]['method'] == 'Textures.GetTextures' else 'OK'})
+        with mock.patch('xbmc.executeJSONRPC', rpc):
+            self.run_plugin('?action=cameras')
+        self.assertEqual([c['params'] for c in calls if c['method'] == 'Textures.RemoveTexture'], [{'textureid': 1}])
+
+    def test_birdseye(self):
+        self.run_plugin('?action=birdseye')
+        li = self.resolved()
+        self.assertEqual((li.path, li.mime), (PROXY + '/birdseye.ts', 'video/mp2t'))
+        self.run_plugin('?action=birdseye&restream=1')
+        li = self.resolved()
+        self.assertEqual((li.path, li.mime), (PROXY + '/live/birdseye.mp4', 'video/mp4'))
+
+    def test_live_through_frigate(self):
+        self.run_plugin('?action=live&camera=tapo_c100&stream=tapo_c100_sub')
+        li = self.resolved()
+        self.assertEqual((li.path, li.mime), (PROXY + '/live/tapo_c100_sub.mp4', 'video/mp4'))
+        self.waited.assert_called_once_with(li.path)
+
     def test_live_rtsp(self):
+        settings(server_url=self.mock.url, live_source='rtsp')
         self.run_plugin('?action=live&camera=tapo_c100&stream=tapo_c100_sub')
         self.assertEqual(self.resolved().path, 'rtsp://127.0.0.1:8554/tapo_c100_sub')
-        settings(server_url=self.mock.url, live_host='nvr.lan')
+        settings(server_url=self.mock.url, live_source='rtsp', live_host='nvr.lan')
         self.run_plugin('?action=live&camera=tapo_c200')
         self.assertEqual(self.resolved().path, 'rtsp://nvr.lan:8554/tapo_c200')
 
@@ -79,9 +115,9 @@ class Listings(FrigateCase):
         item = mock_frigate.REVIEW[3]
         self.run_plugin('?action=clip&camera=tapo_c100&start={}&end={}'.format(item['start_time'], item['end_time']))
         li = self.resolved()
-        self.assertEqual(li.path, PROXY + '/api/tapo_c100/start/{}/end/{}/clip.mp4'.format(
+        self.assertEqual(li.path, PROXY + '/vod/tapo_c100/start/{}/end/{}/index.m3u8'.format(
             int(item['start_time']), int(item['end_time']) + 1))
-        self.assertEqual(li.mime, 'video/mp4')
+        self.assertEqual(li.mime, 'application/vnd.apple.mpegurl')
 
     def test_unreachable_server_ends_listing(self):
         settings(server_url='http://127.0.0.1:9')

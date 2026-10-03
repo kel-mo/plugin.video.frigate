@@ -26,6 +26,10 @@ msgctxt "#30001"
 msgid "Review"
 msgstr ""
 
+msgctxt "#30002"
+msgid "Birdseye"
+msgstr ""
+
 msgctxt "#30003"
 msgid "Settings"
 msgstr ""
@@ -69,7 +73,7 @@ msgid "Stream"
 msgstr ""
 
 msgctxt "#30202"
-msgid "Frigate's go2rtc restreams each camera. RTSP (port 8554) starts quickly; HLS (port 1984) plays over HTTP but lags a few seconds. Neither asks for the sign-in."
+msgid "Through Frigate plays live view like the Frigate web UI does, over the Frigate address with your sign-in. RTSP (port 8554) and HLS (port 1984) go straight to Frigate's go2rtc, which must be reachable from Kodi on those ports."
 msgstr ""
 
 msgctxt "#30203"
@@ -88,20 +92,16 @@ msgctxt "#30206"
 msgid "Where go2rtc listens. Leave empty to use the host of the Frigate address."
 msgstr ""
 
+msgctxt "#30207"
+msgid "Through Frigate"
+msgstr ""
+
 msgctxt "#30300"
 msgid "Review"
 msgstr ""
 
 msgctxt "#30301"
 msgid "Items per page"
-msgstr ""
-
-msgctxt "#30500"
-msgid "Advanced"
-msgstr ""
-
-msgctxt "#30501"
-msgid "Debug logging"
 msgstr ""
 
 # Messages 30600-30699

@@ -175,9 +175,10 @@ class FrigateClient:
     def config(self):
         return self.get('/api/config') or {}
 
-    def cameras(self):
+    def cameras(self, config=None):
         """Enabled cameras in the Frigate UI's order: [(name, camera config)]."""
-        found = [(n, c) for n, c in (self.config().get('cameras') or {}).items() if c.get('enabled', True)]
+        config = self.config() if config is None else config
+        found = [(n, c) for n, c in (config.get('cameras') or {}).items() if c.get('enabled', True)]
         return sorted(found, key=lambda x: (x[1].get('ui') or {}).get('order') or 0)
 
     def review(self, limit, before=None):
@@ -197,11 +198,18 @@ class FrigateClient:
         return self.media_url(quote(path[len(MEDIA_ROOT):])) if path.startswith(MEDIA_ROOT + '/') else ''
 
     def clip_url(self, camera, start, end):
-        return self.media_url('/api/{}/start/{}/end/{}/clip.mp4'.format(quote(camera), int(start),
-                                                                       int(math.ceil(end))))
+        """HLS of the recordings, as the Frigate UI plays them; clip.mp4 is fragmented and Kodi stops after 2 s."""
+        return self.media_url('/vod/{}/start/{}/end/{}/index.m3u8'.format(quote(camera), int(start),
+                                                                         int(math.ceil(end))))
 
-    def live_url(self, stream, source='rtsp', host=None):
-        """go2rtc's restream: plain RTSP, or HLS from its API. Neither takes the Frigate sign-in."""
+    def birdseye_url(self):
+        """Frigate's jsmpeg Birdseye, re-timed by the proxy; with restream on, live_url('birdseye') plays it."""
+        return proxy_address() + proxy.BIRDSEYE
+
+    def live_url(self, stream, source='frigate', host=None):
+        """Through Frigate's MSE websocket with the sign-in, or go2rtc's own RTSP or HLS, which take none."""
+        if source == 'frigate':
+            return '{}/live/{}.mp4'.format(proxy_address(), quote(stream, safe=''))
         host = (host or '').strip() or urlsplit(self.base_url).hostname or ''
         if ':' in host:
             host = '[{}]'.format(host.strip('[]'))
