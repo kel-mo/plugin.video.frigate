@@ -5,13 +5,16 @@ live on Kodi, and play back the clips of its recent review items.
 
 View only: the add-on never changes anything on the server.
 
-Needs Frigate 0.14 or newer, and Kodi 21 or 22.
+Needs Frigate 0.14 or newer, and Kodi 22.
 
 ## Install
 
 1. In Kodi, turn on *Settings → System → Add-ons → Unknown sources*.
-2. Build a zip with `./build.py` and pick it under *Add-ons → Install from
-   zip file*.
+2. Download the `repository.kelmo-<version>.zip` linked at the top of
+   <https://kel-mo.github.io/repository.kelmo/>.
+3. *Add-ons → Install from zip file* and pick that zip.
+4. *Install from repository → kel-mo Add-on Repository → Video add-ons →
+   Frigate → Install*.
 
 ## Set up
 

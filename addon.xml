@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.frigate" name="Frigate" version="0.1.0" provider-name="kel-mo">
   <requires>
-    <import addon="xbmc.python" version="3.0.1"/>
+    <import addon="xbmc.python" version="3.1.0"/>
   </requires>
   <extension point="xbmc.python.pluginsource" library="default.py">
     <provides>video</provides>
@@ -15,6 +15,11 @@
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kel-mo/plugin.video.frigate</source>
     <website>https://frigate.video</website>
-    <news>v0.1.0: initial release - live view and review clips</news>
+    <news>v0.1.0
+- First release: live view and review clips</news>
+    <assets>
+      <icon>resources/icon.png</icon>
+      <fanart>resources/fanart.jpg</fanart>
+    </assets>
   </extension>
 </addon>
