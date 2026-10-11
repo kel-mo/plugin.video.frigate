@@ -50,37 +50,6 @@
         </setting>
       </group>
     </category>
-    <category id="live" label="30200" help="">
-      <group id="1">
-        <setting id="live_source" type="string" label="30201" help="30202">
-          <level>0</level>
-          <default>frigate</default>
-          <constraints>
-            <options>
-              <option label="30207">frigate</option>
-              <option label="30203">rtsp</option>
-              <option label="30204">hls</option>
-            </options>
-          </constraints>
-          <control type="list" format="string">
-            <heading>30201</heading>
-          </control>
-        </setting>
-        <setting id="live_host" type="string" label="30205" help="30206">
-          <level>1</level>
-          <default></default>
-          <constraints>
-            <allowempty>true</allowempty>
-          </constraints>
-          <dependencies>
-            <dependency type="visible" setting="live_source" operator="!is">frigate</dependency>
-          </dependencies>
-          <control type="edit" format="string">
-            <heading>30205</heading>
-          </control>
-        </setting>
-      </group>
-    </category>
     <category id="review" label="30300" help="">
       <group id="1">
         <setting id="page_size" type="integer" label="30301" help="">

@@ -242,8 +242,6 @@ def stop(server):
 def wait_for_kodi(url, limit=5):
     """Keep the plugin alive until Kodi's main thread has checked url through the proxy."""
     parts = urlsplit(url)
-    if parts.hostname != '127.0.0.1':
-        return
     probe = '{}://{}/seen{}'.format(parts.scheme, parts.netloc, quote(parts.path))
     monitor = xbmc.Monitor()
     end = time.time() + limit

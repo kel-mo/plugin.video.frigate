@@ -64,38 +64,6 @@ msgctxt "#30105"
 msgid "Password"
 msgstr ""
 
-msgctxt "#30200"
-msgid "Live view"
-msgstr ""
-
-msgctxt "#30201"
-msgid "Stream"
-msgstr ""
-
-msgctxt "#30202"
-msgid "Through Frigate plays live view like the Frigate web UI does, over the Frigate address with your sign-in. RTSP (port 8554) and HLS (port 1984) go straight to Frigate's go2rtc, which must be reachable from Kodi on those ports."
-msgstr ""
-
-msgctxt "#30203"
-msgid "RTSP"
-msgstr ""
-
-msgctxt "#30204"
-msgid "HLS"
-msgstr ""
-
-msgctxt "#30205"
-msgid "Stream host"
-msgstr ""
-
-msgctxt "#30206"
-msgid "Where go2rtc listens. Leave empty to use the host of the Frigate address."
-msgstr ""
-
-msgctxt "#30207"
-msgid "Through Frigate"
-msgstr ""
-
 msgctxt "#30300"
 msgid "Review"
 msgstr ""

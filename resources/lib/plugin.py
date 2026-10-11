@@ -16,7 +16,6 @@ from .api import ApiError, AuthError, FrigateClient, stream_name
 BASE = 'plugin://{}/'.format(kodi.ADDON_ID)
 HANDLE = -1
 HLS = 'application/vnd.apple.mpegurl'
-MIME = {'hls': HLS, 'frigate': 'video/mp4'}
 
 _formats = {}
 
@@ -118,9 +117,7 @@ def cameras(client):
 
 
 def live(client, params):
-    source = kodi.setting('live_source') or 'frigate'
-    resolve(client.live_url(params.get('stream') or params['camera'], source, kodi.setting('live_host')),
-            MIME.get(source))
+    resolve(client.live_url(params.get('stream') or params['camera']), 'video/mp4')
 
 
 def birdseye(client, params):

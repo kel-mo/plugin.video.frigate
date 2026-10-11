@@ -135,12 +135,6 @@ class Urls(FrigateCase):
         client = api.FrigateClient('https://frigate.example.com', '', '', '')
         self.assertEqual(client.live_url('tapo c200/x'), PROXY + '/live/tapo%20c200%2Fx.mp4')
         self.assertEqual(client.birdseye_url(), PROXY + '/birdseye.ts')
-        self.assertEqual(client.live_url('tapo_c200', 'rtsp'), 'rtsp://frigate.example.com:8554/tapo_c200')
-        self.assertEqual(client.live_url('tapo c200', 'hls'),
-                         'http://frigate.example.com:1984/api/stream.m3u8?src=tapo+c200')
-        self.assertEqual(client.live_url('cam', 'rtsp', ' nvr.lan '), 'rtsp://nvr.lan:8554/cam')
-        self.assertEqual(api.FrigateClient('http://[fd00::5]:5000', '', '', '').live_url('cam', 'rtsp'),
-                         'rtsp://[fd00::5]:8554/cam')
 
     def test_stream_name(self):
         cam = mock_frigate.CONFIG['cameras']['tapo_c100']

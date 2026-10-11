@@ -69,21 +69,6 @@ class Listings(FrigateCase):
         self.assertEqual((li.path, li.mime), (PROXY + '/live/tapo_c100_sub.mp4', 'video/mp4'))
         self.waited.assert_called_once_with(li.path)
 
-    def test_live_rtsp(self):
-        settings(server_url=self.mock.url, live_source='rtsp')
-        self.run_plugin('?action=live&camera=tapo_c100&stream=tapo_c100_sub')
-        self.assertEqual(self.resolved().path, 'rtsp://127.0.0.1:8554/tapo_c100_sub')
-        settings(server_url=self.mock.url, live_source='rtsp', live_host='nvr.lan')
-        self.run_plugin('?action=live&camera=tapo_c200')
-        self.assertEqual(self.resolved().path, 'rtsp://nvr.lan:8554/tapo_c200')
-
-    def test_live_hls(self):
-        settings(server_url=self.mock.url, live_source='hls')
-        self.run_plugin('?action=live&camera=tapo_c100&stream=tapo_c100_sub')
-        li = self.resolved()
-        self.assertEqual(li.path, 'http://127.0.0.1:1984/api/stream.m3u8?src=tapo_c100_sub')
-        self.assertEqual(li.mime, 'application/vnd.apple.mpegurl')
-
     def test_review_items(self):
         settings(server_url=self.mock.url, username=mock_frigate.USER, password=mock_frigate.PASSWORD,
                  page_size='10')

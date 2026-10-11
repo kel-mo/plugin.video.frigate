@@ -139,9 +139,6 @@ class Proxy(FrigateCase):
         t = time.time()
         proxy.wait_for_kodi('http://127.0.0.1:{}/vod/x/start/1/end/2/index.m3u8'.format(port), limit=0.3)
         self.assertLess(time.time() - t, 1)
-        t = time.time()
-        proxy.wait_for_kodi('rtsp://nvr.lan:8554/cam')
-        self.assertLess(time.time() - t, 0.1)
 
     def test_stopping_cuts_a_relay_under_way(self):
         held, done = threading.Event(), threading.Event()

@@ -6,7 +6,7 @@ import ssl
 from http.client import HTTPException
 from http.cookies import CookieError, SimpleCookie
 from urllib.error import HTTPError, URLError
-from urllib.parse import quote, urlencode, urlsplit
+from urllib.parse import quote, urlencode
 from urllib.request import Request, urlopen
 
 import xbmc
@@ -14,8 +14,6 @@ import xbmc
 from . import kodi, proxy
 
 TIMEOUT = 30
-RTSP_PORT = 8554                         # go2rtc restream, unauthenticated
-GO2RTC_PORT = 1984                       # go2rtc API, serves HLS
 MEDIA_ROOT = '/media/frigate'            # nginx serves its clips/ as /clips/
 
 
@@ -206,13 +204,6 @@ class FrigateClient:
         """Frigate's jsmpeg Birdseye, re-timed by the proxy; with restream on, live_url('birdseye') plays it."""
         return proxy_address() + proxy.BIRDSEYE
 
-    def live_url(self, stream, source='frigate', host=None):
-        """Through Frigate's MSE websocket with the sign-in, or go2rtc's own RTSP or HLS, which take none."""
-        if source == 'frigate':
-            return '{}/live/{}.mp4'.format(proxy_address(), quote(stream, safe=''))
-        host = (host or '').strip() or urlsplit(self.base_url).hostname or ''
-        if ':' in host:
-            host = '[{}]'.format(host.strip('[]'))
-        if source == 'hls':
-            return 'http://{}:{}/api/stream.m3u8?{}'.format(host, GO2RTC_PORT, urlencode({'src': stream}))
-        return 'rtsp://{}:{}/{}'.format(host, RTSP_PORT, quote(stream))
+    def live_url(self, stream):
+        """Through Frigate's MSE websocket with the sign-in."""
+        return '{}/live/{}.mp4'.format(proxy_address(), quote(stream, safe=''))
