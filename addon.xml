@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.frigate" name="Frigate" version="0.1.0" provider-name="kel-mo">
+<addon id="plugin.video.frigate" name="Frigate" version="0.1.1" provider-name="kel-mo">
   <requires>
     <import addon="xbmc.python" version="3.1.0"/>
   </requires>
@@ -15,7 +15,9 @@
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kel-mo/plugin.video.frigate</source>
     <website>https://frigate.video</website>
-    <news>v0.1.0
+    <news>v0.1.1
+- Live view always plays through the Frigate address with your sign-in. The RTSP and HLS choices, which needed extra open ports and asked for no sign-in, are gone
+v0.1.0
 - First release: live view, Birdseye and review clips</news>
     <assets>
       <icon>resources/icon.png</icon>
